@@ -1,0 +1,5 @@
+Ejercicio 1:
+a. Res solamente va a dar 1 si al menos una señal y su señal de control correspondiente estan en 1. Sin embargo, no puede estar en 1 una señal de control si su señal correspondiente no esta en 1, en cuyo caso se produce un error. Si hay una señal prendida, su señal de control correspondiente no esta prendida y no hay cables en rojo, entonces el resultado esta indefinido (ni 0 ni 1).
+b. Verde claro significa que la señal del cable es un 1, verde oscuro significa que es 0, el azul significa que la señal esta indefinida y rojo significa que se produjo un error.
+c. Una regla posible para evitar que el cable tome el color rojo, es que no se pueda prender una señal de control si antes haber prendido su señal correspondiente. Otra posible regla podria ser que no se pueda prender mas de una señal de control a la vez.
+d. Las "combinaciones basura" ocurren cuando mas de 1 dato y su señal de control correspondiente estan prendidas, pues hay dos señales positivas yendo a un mismo resultado.
