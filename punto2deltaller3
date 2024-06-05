@@ -1,29 +1,53 @@
 2) 
 a_)
    00000014 <fin>
-   00000018 <resta>:
-   00000028 <sigo>:
-   0000002c <epilogo>:
+   00000018 <resta> (esta prologo pero no lo interpreta )
+   00000028 <sigo>
+   0000002c <epilogo>
 
 b_) 
 linea 3 pc + 8
 linea 5 pc + 4
-linea 9 pc + 8 (habia un -4 en linea 6 puede que no sea exacto)
+linea 9 pc + 8 
 linea 10 pc -16
 
-c_) para la instruccion li, el immediate puede tener valor de hasta 5 binarios (pagina 73 manual) y uno del otro inmediato 
+c_) para la instruccion li, el immediate puede tener valor de hasta 5 binarios (pagina 73 manual) osea 32 numeros distintosy uno del otro inmediato 
 en el risc vemos que usa 4 decimales (osea hasta 16 binarios)
-en addi el immediatte usa 12 binarios y 3 decimales 
+en addi el immediatte usa 12 binarios y 3 hexadecimales (2 a la 12 numeros distintos) 
 
-d_) no encuentro o no se quien es c2 aca, pero en general cuando no podemos representar algo con 12 bits y lo queremos extender a 32 bits cargamos primero los 20 bits mas altos con LUI y 
-luego addi con los 12 bits mas altos que queremos ampliar, si tenemos un valor alto a restar el bit menos significativo de lui debe ser un valor mas alto para cuadno lo restamos obtener lo que queremos(pdf arq. pag. 29) 
+d_) cuando no podemos representar algo con 12 bits y lo queremos extender a 32 bits cargamos primero los 20 bits mas altos con LUI y 
+luego addi con los 12 bits mas altos que queremos ampliar, si tenemos un valor alto a restar el bit menos significativo de lui debe ser un valor mas alto para cuando lo restamos obtener lo que queremos(pdf arq. pag. 29) 
 
-e_) el valor final de a1 despues de 100ms es 0x00000842 que en binario es 0000 0000 0000 0000 0000 1000 0100 0010
+e_) el valor final de a1 despues de 100ms es 0x00000842 que en binario es 0000 0000 0000 0000 0000 1000 0100 0010 (2114)
 
-f_) se queda tildado por alguna razon en 0x14, tendria sentido igual que la ultima palabra cargada sea el pc. Igual cuando lo corro se queda en el 14 porque llega a la etiqueta "fin" asi que tendria sentido tambien si es esa la ultima posicion en memoria del pc
+f_) se queda loopeado en 0x14, tendria sentido igual que la ultima palabra cargada sea el pc. Igual cuando lo corro se queda en el 14 porque llega a la etiqueta "fin" asi que tendria sentido tambien si es esa la ultima posicion en memoria del pc
 
 g_)
-TO DO
+PC 
+x00 
+x04
+x08
+x0c
+x10
+x18
+x1c
+x20
+x24
+x28
+x18
+x1c
+x20
+x24
+x2c
+x30
+x34
+x2c
+x30
+x34
+x14
+x14
+...
+x14
 
 h) Inicio : ra: 0x00000000 , sp: 0x7ffffff0
 Durante:
@@ -34,4 +58,17 @@ addi ra: 0x00000014
 despues de add sp 0x7ffffff0
 luego ya pasa a fin y el programa no vuelve a ejecutar, los valores finales son ra : 0x00000014, sp 0x7ffffff0
 
-h_) probablemente hay que hacer un srli para dividir por dos, no llegue a testearlo
+h_) li a0,4228
+srli a1, a0, 1
+jal ra, resta
+fin: beq zero, zero, fin
+resta:
+prologo: addi sp, sp,-4
+sw ra,0(sp)
+sub a0,a0,a1
+beq a0,zero,epilogo
+sigo: jal ra, resta
+epilogo:
+lw ra, 0(sp)
+addi sp, sp,4
+ret
