@@ -75,3 +75,30 @@ epilogo:
 lw ra, 0(sp)
 addi sp, sp,4
 ret
+
+
+Punto 3 del taller
+Cada _ es un ciclo
+12 ciclos con el pc arrancando en 08: (segun ripes)
+1_carga el 4 en x11 (asumimos que este arranacaba sin nada)
+2_ carga en x12 lo que estaba en x11 (la palabra de memoria)
+3_ carga el 4 a x13 (asumimos que este arrancaba sin nada)
+4_ carga en x13 lo que esta en x13 (la palabra de 4 bytes de memoria)
+5_  idem
+6_ branchea si tiene el mismo valor, x12 y x13 al menos en ripes parecen no tener el mismo valor entonces sigue el flujo sin hacer caso al brq
+7_ carga los primeros 5 bits mas sign a x14
+8_ suma a x14 los 3 bits menos sign
+9_ guarda en x12 la suma de x12 y x14
+10_ guarda lo que esta en x11 en la direccion de memoria x12+40
+10_ suma 0 a x10
+11_ suma 93 a x17
+12_ llama a sistema operativo a tomar el control
+
+12 ciclos con el pc arrancando en 00: (segun ripes)
+no cambia nada
+
+segun la logica:
+si el pc arranca en 08 va a cargar en x12 lo que esta en memoria en 4, en este caso instrucciones nulas ya que el pc arranco en 8 
+luego, va a entrar al beq en 2 ocasiones y va a quedar en loop infinito/ al terminar los 12 ciclos en el medio del cuerpo de main
+
+si el pc arranca en 00, va a poder cargar en memoria ya que la posicion de memoria no va a ser nula y va a hacer lo que esta descrito en la parte de arriba
